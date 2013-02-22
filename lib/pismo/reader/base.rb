@@ -235,6 +235,7 @@ module Pismo
         sentences.first(qty)
       end
       
+      # Returns only images with an absolute url
       def images(qty = 3)
         doc = Nokogiri::HTML(content, nil, 'utf-8')
         images = []
@@ -247,6 +248,7 @@ module Pismo
         images
       end
       
+      # Returns images with a relative url
       def relative_images(qty = 3)
         doc = Nokogiri::HTML(content, nil, 'utf-8')
         images = []
