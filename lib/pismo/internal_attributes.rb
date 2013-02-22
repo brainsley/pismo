@@ -6,6 +6,7 @@ module Pismo
       # TODO: Memoizations
       title = @doc.match( 
                           [
+                            ['meta[@property="og:title"]', lambda { |el| el.attr('content') }],
                             '#pname a',                                                       # Google Code style
                             '.entryheader h1',                                                # Ruby Inside/Kubrick
                             '.entry-title a',                                               # Common Blogger/Blogspot rules
@@ -22,6 +23,7 @@ module Pismo
                             '.post_title',
                             '.pageTitle',
                             '#main h1.title',
+                            #'#article h1',
                             '.title h1',                          
                             '.post h2',
                             'h2.title',
