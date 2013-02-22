@@ -192,11 +192,6 @@ module Pismo
         # If tags butt up against each other across lines, remove the line break(s)
         clean_html.gsub!(/\>\n+\</, '><')
 
-        # Get rid of images whose sources are relative (TODO: Make this optional)
-#         clean_html.gsub!(/\<img .*?\>/i) do |img_tag|
-#           img_tag =~ /\Whttp/ ? img_tag : ''
-#         end
-
         # Remove empty tags
         clean_html.gsub!(/<(\w+)><\/\1>/, "")
 
