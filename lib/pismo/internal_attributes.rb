@@ -77,29 +77,32 @@ module Pismo
     # Last-Updated HTTP header if they so wish. This method is just rough and based on content only.
     def datetime
       # TODO: Clean all this mess up
+      datetime = nil
+      datetime = @doc.match( [ ['meta[@itemprop="datePublished"]', lambda { |el| el.attr('content') }] ] )
       
-      mo = %r{(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December)\.?}i
-      
-      regexen = [
-        /#{mo}\b\s+\d+\D{1,10}\d{4}/i,
-        /(on\s+)?\d+\s+#{mo}\s+\D{1,10}\d+/i,
-        /(on[^\d+]{1,10})\d+(th|st|rd)?.{1,10}#{mo}\b[^\d]{1,10}\d+/i,
-        /\b\d{4}\-\d{2}\-\d{2}\b/i,
-        /\d+(th|st|rd).{1,10}#{mo}\b[^\d]{1,10}\d+/i,
-        /\d+\s+#{mo}\b[^\d]{1,10}\d+/i,
-        /on\s+#{mo}\s+\d+/i,
-        /#{mo}\s+\d+,? \d{4}+/i,
-        /#{mo}\s+\d+/i,
-        /\d{4}[\.\/\-]\d{2}[\.\/\-]\d{2}/,
-        /\d{2}[\.\/\-]\d{2}[\.\/\-]\d{4}/
-      ]
-      
-      datetime = 10
-      
-      regexen.each do |r|
-        break if datetime = @doc.to_html[r]
-      end
-      
+      unless datetime
+        mo = %r{(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December)\.?}i
+        
+        regexen = [
+          /#{mo}\b\s+\d+\D{1,10}\d{4}/i,
+          /(on\s+)?\d+\s+#{mo}\s+\D{1,10}\d+/i,
+          /(on[^\d+]{1,10})\d+(th|st|rd)?.{1,10}#{mo}\b[^\d]{1,10}\d+/i,
+          /\b\d{4}\-\d{2}\-\d{2}\b/i,
+          /\d+(th|st|rd).{1,10}#{mo}\b[^\d]{1,10}\d+/i,
+          /\d+\s+#{mo}\b[^\d]{1,10}\d+/i,
+          /on\s+#{mo}\s+\d+/i,
+          /#{mo}\s+\d+,? \d{4}+/i,
+          /#{mo}\s+\d+/i,
+          /\d{4}[\.\/\-]\d{2}[\.\/\-]\d{2}/,
+          /\d{2}[\.\/\-]\d{2}[\.\/\-]\d{4}/
+        ]
+        
+        datetime = 10
+        
+        regexen.each do |r|
+          break if datetime = @doc.to_html[r]
+        end
+      end        
       return unless datetime && datetime.length > 4
       
       # Clean up the string for use by Chronic
