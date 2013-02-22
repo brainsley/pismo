@@ -232,6 +232,10 @@ module Pismo
     def images(limit = 3)
       reader_doc && !reader_doc.images.empty? ? reader_doc.images(limit) : nil
     end
+    
+    def relative_images(limit = 3)
+      reader_doc && !reader_doc.relative_images.empty? ? reader_doc.relative_images(limit) : nil
+    end
 
     # Returns the tags or categories of the page/content
     def tags

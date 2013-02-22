@@ -192,11 +192,6 @@ module Pismo
         # If tags butt up against each other across lines, remove the line break(s)
         clean_html.gsub!(/\>\n+\</, '><')
 
-        # Get rid of images whose sources are relative (TODO: Make this optional)
-        clean_html.gsub!(/\<img .*?\>/i) do |img_tag|
-          img_tag =~ /\Whttp/ ? img_tag : ''
-        end
-
         # Remove empty tags
         clean_html.gsub!(/<(\w+)><\/\1>/, "")
 
@@ -240,12 +235,28 @@ module Pismo
         sentences.first(qty)
       end
       
+      # Returns only images with an absolute url
       def images(qty = 3)
         doc = Nokogiri::HTML(content, nil, 'utf-8')
         images = []
         doc.css("img").each do |img|
-          images << img['src']
-          break if images.length == qty
+          if img['src'] =~ /http.*/
+            images << img['src']
+            break if images.length == qty
+          end
+        end
+        images
+      end
+      
+      # Returns images with a relative url
+      def relative_images(qty = 3)
+        doc = Nokogiri::HTML(content, nil, 'utf-8')
+        images = []
+        doc.css("img").each do |img|
+          unless img['src'] =~ /http.*/
+            images << img['src']
+            break if images.length == qty
+          end
         end
         images
       end
