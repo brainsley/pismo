@@ -239,8 +239,22 @@ module Pismo
         doc = Nokogiri::HTML(content, nil, 'utf-8')
         images = []
         doc.css("img").each do |img|
-          images << img['src']
-          break if images.length == qty
+          if img['src'] =~ /http.*/
+            images << img['src']
+            break if images.length == qty
+          end
+        end
+        images
+      end
+      
+      def relative_images(qty = 3)
+        doc = Nokogiri::HTML(content, nil, 'utf-8')
+        images = []
+        doc.css("img").each do |img|
+          unless img['src'] =~ /http.*/
+            images << img['src']
+            break if images.length == qty
+          end
         end
         images
       end
