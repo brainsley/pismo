@@ -32,7 +32,7 @@
   :feed: http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/england/rss.xml
   :images:
     - http://newsimg.bbc.co.uk/shared/img/999999.gif
-    - http://newsimg.bbc.co.uk/media/images/47058000/jpg/_47058769_syed_bbc.jpg
+    - http://bbc.co.uk/media/images/47058000/jpg/_47058769_syed_bbc.jpg
     - http://newsimg.bbc.co.uk/shared/img/o.gif
 :factor:
   :title: Factor's bootstrap process explained
